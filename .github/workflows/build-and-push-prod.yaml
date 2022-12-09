@@ -138,12 +138,12 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npx playwright install
-
+          npx playwright install --with-deps
+          
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
+
       - name: Get container app FQDN's'
         uses: azure/powershell@v1
         with:
@@ -156,6 +156,7 @@ jobs:
         
       - name: Run Playwright tests
         run: |
+          npx playwright install 
           baseUrl=${{ env.BASE_URL }} apiUrl=${{ env.API_URL }} HOME=/root npx playwright test
 
       - name: Create test summary
