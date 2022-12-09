@@ -140,6 +140,10 @@ jobs:
           npm ci
           npx playwright install
 
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: Get container app FQDN's'
         uses: azure/powershell@v1
         with:
