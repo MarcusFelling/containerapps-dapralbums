@@ -2,7 +2,7 @@ import { test, expect, request } from '@playwright/test';
 
 test('Should return albums.', async ({ request }) => {
     // Make a GET request to the albums API
-    const albums = await request.get(process.env.apiUrl + 'albums');    
+    const albums = await request.get(process.env.apiUrl + '/albums');    
     // Verify that the response is OK
     await expect(albums.ok()).toBeTruthy();
     //  For each album, assert that the response contains the expected properties
