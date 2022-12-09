@@ -32,8 +32,8 @@ const config: PlaywrightTestConfig = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
-    ['junit', { outputFile: './results/junit.xml' }],
-    ['html', { outputFolder: './results/html' }],
+    ['junit', { outputFile: './test-results/junit.xml' }],
+    ['html', { outputFolder: './playwright-report/html' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
