@@ -150,15 +150,11 @@ jobs:
         with:
           node-version: "14.x"
 
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Run Playwright tests
         run: |
           npm ci
-          npx playwright install --with-deps
-          baseUrl=${{ needs.build.outputs.baseUrl }} apiUrl=${{ needs.build.outputs.apiUrl }} HOME=/root npx playwright test
+          npx playwright install
+          baseUrl=${{ needs.deploy.outputs.baseUrl }} apiUrl=${{ needs.deploy.outputs.apiUrl }} HOME=/root npx playwright test
 
       - name: Create test summary
         uses: test-summary/action@dist
