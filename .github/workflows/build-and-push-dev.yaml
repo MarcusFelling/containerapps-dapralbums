@@ -125,8 +125,7 @@ jobs:
   test:
     needs: deploy
     timeout-minutes: 60
-    runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.28.1-focal
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: e2e-tests
