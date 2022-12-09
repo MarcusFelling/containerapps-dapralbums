@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   // Go to viewer app before each test case
-  await page.goto('');
+  await page.goto(process.env.baseUrl);
 });
 
 test('Should display viewer app.', async ({ page }) => {
