@@ -139,9 +139,8 @@ jobs:
           npx playwright install
 
       - name: Get container app FQDN's'
-        uses: azure/powershell@v1
+        uses: azure/powershell@v3
         with:
-          azPSVersion: "latest"
           inlineScript: |
             az extension add --name containerapp
             $baseUrl = "https://$(az containerapp show -g ${{ secrets.RG_PROD }} -n album-viewer -o tsv --query properties.configuration.ingress.fqdn)"
