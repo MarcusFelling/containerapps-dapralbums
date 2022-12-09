@@ -126,7 +126,6 @@ jobs:
     needs: deploy
     timeout-minutes: 60
     runs-on: ubuntu-22.04
-    container: mcr.microsoft.com/playwright:v1.28.1-focal
     defaults:
       run:
         working-directory: e2e-tests
@@ -144,6 +143,7 @@ jobs:
       - name: Get container app FQDN's'
         uses: azure/powershell@v1
         with:
+          azPSVersion: 'latest'
           inlineScript: |
             az extension add --name containerapp
             $baseUrl = "https://$(az containerapp show -g ${{ secrets.RG_PROD }} -n album-viewer -o tsv --query properties.configuration.ingress.fqdn)"
