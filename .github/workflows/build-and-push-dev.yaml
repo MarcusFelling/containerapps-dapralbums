@@ -157,7 +157,7 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps
-          baseUrl=${{ needs.build.outputs.baseUrl }} apiUrl=${{ ${{ needs.build.outputs.apiUrl }} }} HOME=/root npx playwright test
+          baseUrl=${{ needs.build.outputs.baseUrl }} apiUrl=${{ needs.build.outputs.apiUrl }} HOME=/root npx playwright test
 
       - name: Create test summary
         uses: test-summary/action@dist
