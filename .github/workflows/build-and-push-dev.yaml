@@ -118,3 +118,50 @@ jobs:
             registryServer=${{ env.REGISTRY }} \
             registryUsername=${{ github.actor }} \
             registryPassword=${{ secrets.GH_PAT }}
+
+  test:
+    needs: deploy
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.28.1-focal
+    defaults:
+      run:
+        working-directory: e2e-tests
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install
+
+      - name: Get container app FQDN's'
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            az extension add --name containerapp
+            $baseUrl = "https://$(az containerapp show -g ${{ secrets.RG_DEV}} -n album-viewer -o tsv --query properties.configuration.ingress.fqdn)"
+            $apiUrl = "https://$(az containerapp show -g ${{ secrets.RG_DEV}} -n album-api -o tsv --query properties.configuration.ingress.fqdn)"
+            echo "BASE_URL=$baseUrl" "API_URL=$apiUrl" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        
+      - name: Run Playwright tests
+        run: |
+          baseUrl=${{ env.BASE_URL }} apiUrl=${{ env.API_URL }} HOME=/root npx playwright test
+
+      - name: Create test summary
+        uses: test-summary/action@dist
+        if: always()
+        with:
+          paths: src/Web/E2E/test-results/junit.xml
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: playwright-report
+          path: src/Web/E2E/playwright-report/
+          retention-days: 30
