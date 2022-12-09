@@ -97,6 +97,9 @@ jobs:
   deploy:
     if: github.repository != 'Azure-samples/containerapps-dapralbums'
     runs-on: ubuntu-latest
+    concurrency:
+      group: dev
+      cancel-in-progress: true
     needs: [package-services]
     steps:
       - name: Checkout repository
