@@ -159,12 +159,12 @@ jobs:
         uses: test-summary/action@dist
         if: always()
         with:
-          paths: e2e-tests/test-results/junit.xml
+          paths: test-results/junit.xml
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: playwright-report
-          path: e2e-tests/playwright-report/
+          path: playwright-report/
           retention-days: 30
