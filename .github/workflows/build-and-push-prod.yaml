@@ -139,7 +139,7 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps
-          
+
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -156,7 +156,6 @@ jobs:
         
       - name: Run Playwright tests
         run: |
-          npx playwright install 
           baseUrl=${{ env.BASE_URL }} apiUrl=${{ env.API_URL }} HOME=/root npx playwright test
 
       - name: Create test summary
